@@ -4,7 +4,7 @@ import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
 import { Gallery } from './ImageGallery.styled';
 
-const ImageGallery = ({ searchResults }) => {
+export default function ImageGallery({ searchResults }) {
   return (
     searchResults && (
       <Gallery>
@@ -14,9 +14,7 @@ const ImageGallery = ({ searchResults }) => {
       </Gallery>
     )
   );
-};
-
-export default ImageGallery;
+}
 
 ImageGallery.propTypes = {
   searchResults: PropTypes.arrayOf(
