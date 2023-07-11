@@ -31,19 +31,17 @@ export const App = () => {
           page,
           IMAGES_PER_PAGE,
         });
-
         if (!totalHits) {
           toast.error(
             `Sorry, there are no images matching your search query: ${searchQuerry}. Please try again. `
           );
           return;
         }
-
         setSearchResults(prev => [...prev, ...hits]);
         setTotalHits(totalHits);
+        if (page === 1) toast.success(`Hooray! We found ${totalHits} images.`);
       } catch ({ message }) {
         toast.error(`Ooops! Something went wrong: "${message}"`);
-        setShowLoader(false);
       } finally {
         setShowLoader(false);
       }
@@ -68,14 +66,12 @@ export const App = () => {
     setPage(prev => prev + 1);
   };
 
-  const totalPages = Math.ceil(totalHits / IMAGES_PER_PAGE);
-  const showImageGallery = !!searchResults.length;
-  const showLoadMoreBtn = !showLoader && totalPages > 1 && page < totalPages;
-
+  const showLoadMoreBtn =
+    !showLoader && page < Math.ceil(totalHits / IMAGES_PER_PAGE);
   return (
     <Container>
       <Searchbar onSubmit={onFormSubmit} />
-      {showImageGallery && <ImageGallery searchResults={searchResults} />}
+      {!!totalHits && <ImageGallery searchResults={searchResults} />}
       {showLoader && <Loader />}
       {showLoadMoreBtn && <Button onBtnClick={onLoadMoreBtnClick} />}
       <Toaster position="top-right" reverseOrder={false} />
